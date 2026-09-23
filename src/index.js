@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { join } from 'node:path';
 import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import { HenrikClient } from './henrik.js';
 import { Store } from './store.js';
@@ -16,7 +17,9 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildPresences],
 });
 
-const store = new Store(new URL('../data/db.json', import.meta.url).pathname);
+// DATA_DIR permet de pointer vers un disque persistant chez l'hébergeur (ex. un volume Railway).
+const dataDir = process.env.DATA_DIR || new URL('../data', import.meta.url).pathname;
+const store = new Store(join(dataDir, 'db.json'));
 const henrik = new HenrikClient({ apiKey: HENRIK_API_KEY, requestsPerMinute: Number(HENRIK_RATE_LIMIT) || 30 });
 const tracker = new Tracker({ client, store, henrik });
 

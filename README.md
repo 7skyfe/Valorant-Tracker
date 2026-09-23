@@ -47,7 +47,12 @@ npm start
 
 Astuce : renseigne `DEV_GUILD_ID` avec l'ID de ton serveur pour que les commandes apparaissent immédiatement.
 
-Pour qu'il tourne 24/7, il faut l'héberger (VPS, Raspberry Pi, Railway, fly.io…). Les données sont stockées dans `data/db.json` : garde ce dossier persistant.
+### Hébergement 24/7 (Railway)
+1. Crée un compte sur <https://railway.com> avec ton GitHub.
+2. **New Project → Deploy from GitHub repo** → choisis ce dépôt, puis dans **Settings → Source** sélectionne la bonne branche.
+3. Onglet **Variables** : ajoute `DISCORD_TOKEN`, `HENRIK_API_KEY` et `DATA_DIR=/data`.
+4. Clic droit sur le service → **Attach Volume** → point de montage `/data` (sinon la liste des joueurs suivis est effacée à chaque mise à jour).
+5. Railway lance `npm start` tout seul et redéploie à chaque push sur la branche. Les erreurs sont dans l'onglet **Logs**.
 
 ## Comment ça marche / limites
 
