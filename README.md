@@ -16,8 +16,14 @@ Suit en direct les parties Valorant des membres d'un serveur Discord :
 | `/track retirer pseudo tag` | Arrête le suivi |
 | `/track liste` | Liste les comptes suivis |
 | `/derniere pseudo tag [region]` | Affiche la dernière partie de n'importe quel joueur |
+| `/classement` | Classement par rang (et RR) de tous les joueurs suivis sur le serveur |
 
 > Sur Valorant, EUW et EUNE ne sont qu'une seule région : **Europe (`eu`)**.
+
+## Qui doit faire quoi ?
+
+- **Les joueurs** : rien à installer, aucun compte à créer. Ils tapent `/track ajouter` avec leur pseudo et leur tag, c'est tout.
+- **La personne qui héberge le bot** (une seule fois) : les étapes ci-dessous. C'est ce que les créateurs de bots publics comme Malefic Hat font de leur côté ; ici, c'est toi le créateur.
 
 ## Installation
 
@@ -49,7 +55,7 @@ Pour qu'il tourne 24/7, il faut l'héberger (VPS, Raspberry Pi, Railway, fly.io�
 - Les résultats arrivent via l'API **1 à 3 minutes** après la fin de la partie. Le bot vérifie chaque minute pendant qu'un joueur est en jeu, et toutes les 5 minutes sinon (les résultats sont donc postés même si le statut Discord est masqué).
 - Seules les parties jouées **après** l'ajout d'un compte sont annoncées.
 - Compte PC uniquement (pas console).
-- **tracker.gg** : les liens ouvrent le match et le profil, mais les stats affichées dans Discord viennent de HenrikDev (tracker.gg ne propose pas d'API Valorant ouverte). Pour que ton profil soit visible sur tracker.gg, connecte-toi une fois sur tracker.gg avec ton compte Riot.
+- **tracker.gg** : les liens ouvrent le match et le profil, mais les stats affichées dans Discord viennent de HenrikDev (tracker.gg ne propose pas d'API Valorant ouverte). Facultatif : si un profil apparaît privé en cliquant sur le lien, le joueur peut se connecter une fois sur tracker.gg. Le bot, lui, fonctionne dans tous les cas.
 
 ## Structure
 

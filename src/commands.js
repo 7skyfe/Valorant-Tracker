@@ -61,6 +61,11 @@ export const definitions = [
     .addStringOption((o) =>
       o.setName('region').setDescription('Région du compte (détectée automatiquement sinon)').addChoices(...REGIONS),
     ),
+
+  new SlashCommandBuilder()
+    .setName('classement')
+    .setDescription('Classement par rang des joueurs suivis sur ce serveur')
+    .setDMPermission(false),
 ].map((c) => c.toJSON());
 
 // "skyfe#マキマ" collé dans le champ pseudo, ou "#マキマ" dans le champ tag : on tolère.
@@ -109,6 +114,28 @@ export async function handleCommand(interaction, { store, henrik, tracker }) {
     } catch (e) {
       return interaction.editReply(explain(e));
     }
+  }
+
+  if (interaction.commandName === 'classement') {
+    const players = Object.values(store.guild(guildId).players);
+    if (!players.length) return interaction.reply('Personne n’est suivi ici. Utilise `/track ajouter`.');
+    await interaction.deferReply();
+    const rows = [];
+    for (const p of players) {
+      const [last] = (await henrik.getMmrHistory(p.region, p.puuid).catch(() => null)) ?? [];
+      rows.push({ p, elo: last?.elo ?? -1, rank: last?.currenttierpatched ?? 'Non classé', rr: last?.ranking_in_tier });
+    }
+    rows.sort((a, b) => b.elo - a.elo);
+    const medals = ['🥇', '🥈', '🥉'];
+    const lines = rows.map(({ p, rank, rr }, i) => {
+      const who = p.discordUserId ? ` — <@${p.discordUserId}>` : '';
+      const pts = rr != null ? ` · ${rr} RR` : '';
+      return `${medals[i] ?? `**${i + 1}.**`} [**${p.name}#${p.tag}**](${trackerProfileUrl(p.name, p.tag)}) · ${rank}${pts}${who}`;
+    });
+    return interaction.editReply({
+      embeds: [infoEmbed(`Classement de ${interaction.guild.name}`, lines.join('\n'))],
+      allowedMentions: { parse: [] },
+    });
   }
 
   if (interaction.commandName !== 'track') return;

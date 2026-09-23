@@ -73,7 +73,7 @@ test('embed et commandes se construisent', () => {
   const embed = matchEmbed(summarizeMatch(fakeMatch(), ME), { discordUserId: '123', rr: { rank: 'Gold 2', change: 18 } }).toJSON();
   assert.match(embed.title, /VICTOIRE/);
   assert.ok(embed.fields.some((f) => f.value.includes('+18 RR')));
-  assert.deepEqual(definitions.map((d) => d.name), ['salon', 'track', 'derniere']);
+  assert.deepEqual(definitions.map((d) => d.name), ['salon', 'track', 'derniere', 'classement']);
 });
 
 test('détection du statut "Joue à VALORANT"', () => {
