@@ -5,7 +5,7 @@
 // compte pour annoncer qu'il est en jeu et pour accélérer le polling pendant sa session.
 import { ActivityType } from 'discord.js';
 import { summarizeMatch, newMatchesSince } from './match.js';
-import { matchEmbed, liveEmbed, sessionEndEmbed } from './embeds.js';
+import { matchEmbed, matchButtons, liveEmbed, sessionEndEmbed } from './embeds.js';
 
 const TICK_MS = 15_000;
 const LIVE_POLL_MS = 60_000; // membre en jeu : on vérifie chaque minute
@@ -106,6 +106,7 @@ export class Tracker {
 
     await channel.send({
       embeds: [matchEmbed(summary, { discordUserId: player.discordUserId, rr })],
+      components: [matchButtons(summary)],
       allowedMentions: { parse: [] },
     });
 

@@ -1,4 +1,9 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+
+// Liens tracker.gg (TRN) : la page du match et le profil du joueur.
+export const trackerMatchUrl = (matchId) => `https://tracker.gg/valorant/match/${matchId}`;
+export const trackerProfileUrl = (name, tag) =>
+  `https://tracker.gg/valorant/profile/riot/${encodeURIComponent(`${name}#${tag}`)}/overview`;
 
 const COLORS = {
   win: 0x2ecc71,
@@ -30,8 +35,13 @@ export function matchEmbed(m, { discordUserId, rr } = {}) {
 
   const embed = new EmbedBuilder()
     .setColor(COLORS[m.result])
-    .setAuthor({ name: `${m.name}#${m.tag}`, iconURL: agentIcon(m.agentId) ?? undefined })
+    .setAuthor({
+      name: `${m.name}#${m.tag}`,
+      iconURL: agentIcon(m.agentId) ?? undefined,
+      url: trackerProfileUrl(m.name, m.tag),
+    })
     .setTitle(`${RESULT_LABEL[m.result]} · ${m.map}`)
+    .setURL(trackerMatchUrl(m.matchId))
     .setDescription(
       [
         `${scoreLine} en **${m.mode}** avec **${m.agent}**`,
@@ -62,6 +72,14 @@ export function matchEmbed(m, { discordUserId, rr } = {}) {
   if (banner) embed.setImage(banner);
   if (m.startedAt) embed.setTimestamp(m.startedAt);
   return embed;
+}
+
+// Boutons sous le résultat : page du match et profil sur tracker.gg.
+export function matchButtons(m) {
+  return new ActionRowBuilder().addComponents(
+    new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Voir la partie sur tracker.gg').setURL(trackerMatchUrl(m.matchId)),
+    new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Profil').setURL(trackerProfileUrl(m.name, m.tag)),
+  );
 }
 
 export function liveEmbed(players, discordUserId) {

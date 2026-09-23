@@ -4,6 +4,7 @@ Suit en direct les parties Valorant des membres d'un serveur Discord :
 
 - 🔴 **En jeu** : annonce quand un membre lance VALORANT (d'après son statut Discord).
 - 🏆 / 💀 **Résultat** : à chaque fin de partie, poste victoire/défaite avec map, agent, score, K/D/A, ACS, ADR, HS % et gain/perte de RR en compétitif.
+- 🔗 **tracker.gg** : cliquer sur le titre du résultat (ou le bouton « Voir la partie sur tracker.gg ») ouvre la page du match sur tracker.gg ; le pseudo et le bouton « Profil » ouvrent le profil du joueur.
 - ⚫ **Fin de session** : quand le joueur ferme le jeu, le message « En jeu » devient un bilan (ex. `4 parties · 3V / 1D`).
 
 ## Commandes
@@ -48,6 +49,7 @@ Pour qu'il tourne 24/7, il faut l'héberger (VPS, Raspberry Pi, Railway, fly.io�
 - Les résultats arrivent via l'API **1 à 3 minutes** après la fin de la partie. Le bot vérifie chaque minute pendant qu'un joueur est en jeu, et toutes les 5 minutes sinon (les résultats sont donc postés même si le statut Discord est masqué).
 - Seules les parties jouées **après** l'ajout d'un compte sont annoncées.
 - Compte PC uniquement (pas console).
+- **tracker.gg** : les liens ouvrent le match et le profil, mais les stats affichées dans Discord viennent de HenrikDev (tracker.gg ne propose pas d'API Valorant ouverte). Pour que ton profil soit visible sur tracker.gg, connecte-toi une fois sur tracker.gg avec ton compte Riot.
 
 ## Structure
 

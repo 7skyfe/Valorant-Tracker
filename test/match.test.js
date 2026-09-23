@@ -81,3 +81,12 @@ test('détection du statut "Joue à VALORANT"', () => {
   assert.equal(isPlayingValorant({ activities: [{ type: 2, name: 'Spotify' }] }), false);
   assert.equal(isPlayingValorant(null), false);
 });
+
+test('liens tracker.gg', async () => {
+  const { trackerMatchUrl, trackerProfileUrl, matchButtons } = await import('../src/embeds.js');
+  const s = summarizeMatch(fakeMatch({ id: 'abc-123' }), ME);
+  assert.equal(trackerMatchUrl('abc-123'), 'https://tracker.gg/valorant/match/abc-123');
+  assert.equal(trackerProfileUrl('skyfe', 'マキマ'), 'https://tracker.gg/valorant/profile/riot/skyfe%23%E3%83%9E%E3%82%AD%E3%83%9E/overview');
+  assert.equal(matchEmbed(s).toJSON().url, 'https://tracker.gg/valorant/match/abc-123');
+  assert.equal(matchButtons(s).toJSON().components.length, 2);
+});

@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 import { HenrikError } from './henrik.js';
 import { summarizeMatch } from './match.js';
-import { matchEmbed, infoEmbed } from './embeds.js';
+import { matchEmbed, matchButtons, infoEmbed, trackerProfileUrl } from './embeds.js';
 
 const REGIONS = [
   { name: 'Europe (EUW / EUNE)', value: 'eu' },
@@ -105,7 +105,7 @@ export async function handleCommand(interaction, { store, henrik, tracker }) {
       const [match] = (await henrik.getMatches(region, account.puuid, 1)) ?? [];
       const summary = match && summarizeMatch(match, account.puuid);
       if (!summary) return interaction.editReply('Aucune partie récente trouvée pour ce compte.');
-      return interaction.editReply({ embeds: [matchEmbed(summary)] });
+      return interaction.editReply({ embeds: [matchEmbed(summary)], components: [matchButtons(summary)] });
     } catch (e) {
       return interaction.editReply(explain(e));
     }
@@ -118,7 +118,7 @@ export async function handleCommand(interaction, { store, henrik, tracker }) {
     const g = store.guild(guildId);
     const players = Object.values(g.players);
     const lines = players.map(
-      (p) => `• **${p.name}#${p.tag}** (${p.region.toUpperCase()})${p.discordUserId ? ` — <@${p.discordUserId}>` : ''}`,
+      (p) => `• [**${p.name}#${p.tag}**](${trackerProfileUrl(p.name, p.tag)}) (${p.region.toUpperCase()})${p.discordUserId ? ` — <@${p.discordUserId}>` : ''}`,
     );
     const channelLine = g.channelId ? `Salon des annonces : <#${g.channelId}>` : '⚠️ Aucun salon configuré : utilise `/salon`.';
     return interaction.reply({
