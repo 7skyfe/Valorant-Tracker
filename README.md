@@ -47,7 +47,16 @@ npm start
 
 Astuce : renseigne `DEV_GUILD_ID` avec l'ID de ton serveur pour que les commandes apparaissent immédiatement.
 
-### Hébergement 24/7 (Railway)
+### Hébergement 24/7 gratuit (serveur Linux, ex. Oracle Cloud Always Free)
+Sur un serveur Ubuntu, une seule commande installe tout et lance le bot en service (redémarrage automatique) :
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/7skyfe/Valorant-Tracker/claude/discord-game-tracker-bot-rqcjb6/deploy/install.sh | bash
+```
+
+Le script demande le token, la clé HenrikDev et l'ID du serveur. Relancer la même commande met le bot à jour. Logs : `sudo journalctl -u valorant-tracker -f`.
+
+### Hébergement 24/7 (Railway, payant)
 1. Crée un compte sur <https://railway.com> avec ton GitHub.
 2. **New Project → Deploy from GitHub repo** → choisis ce dépôt, puis dans **Settings → Source** sélectionne la bonne branche.
 3. Onglet **Variables** : ajoute `DISCORD_TOKEN`, `HENRIK_API_KEY` et `DATA_DIR=/data`.
